@@ -1,0 +1,29 @@
+---
+
+on:
+  push:
+    branches:
+      - main
+
+name: Workflow for development branch
+jobs:
+  build:
+    runs-on: macos-10.15
+    timeout-minutes: 1200
+    env:
+      FREEBSD_MAJOR_VERSION: 12
+      FREEBSD_MINOR_VERSION: 3
+      FREEBSD_VERSION: 12.3
+    steps:
+      - uses: actions/checkout@master
+      - uses: os-runners/freebsd-vm@main
+        with:
+          prepare: pkg install -y git-lite poudriere-devel
+          version: ${{ env.FREEBSD_VERSION }}
+          memory: 10240
+          usesh: true
+          run: |
+            mv poudriere.conf /usr/local/etc/poudriere.conf
+            poudriere ports -c -U https://github.com/${{ github.repository }}.git -p senseless -m git+https -B ${GITHUB_REF##*/}
+            poudriere jail -c -j ${{ env.FREEBSD_MAJOR_VERSION }}-${{ env.FREEBSD_MINOR_VERSION }}-amd64 -v stable/${{ env.FREEBSD_MAJOR_VERSION }} -m git+https
+            poudriere bulk -j ${{ env.FREEBSD_MAJOR_VERSION }}-${{ env.FREEBSD_MINOR_VERSION }}-amd64 -O senseless -b latest -f pkglist
