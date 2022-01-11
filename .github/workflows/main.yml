@@ -25,6 +25,6 @@ jobs:
           run: |
             mkdir -p /usr/ports/distfiles
             mv poudriere.conf /usr/local/etc/poudriere.conf
-            poudriere ports -c -U https://github.com/${{ github.repository }}.git -p senseless -m git+https -B ${GITHUB_REF##*/}
+            poudriere ports -c -U https://github.com/${{ github.repository }}.git -p senseless -B ${GITHUB_REF##*/}
             poudriere jail -c -j ${{ env.FREEBSD_MAJOR_VERSION }}-${{ env.FREEBSD_MINOR_VERSION }}-amd64 -v stable/${{ env.FREEBSD_MAJOR_VERSION }} -m git+https
             poudriere bulk -j ${{ env.FREEBSD_MAJOR_VERSION }}-${{ env.FREEBSD_MINOR_VERSION }}-amd64 -O senseless -b latest -f pkglist
