@@ -18,7 +18,8 @@ jobs:
       - uses: os-runners/freebsd-vm@main
         with:
           prepare: pkg install -y git-lite poudriere-devel
-          version: ${{ env.FREEBSD_MAJOR_VERSION }}.${{ env.FREEBSD_MINOR_VERSION }}
+          version: 13.0
+          auto_update: true
           memory: 10240
           usesh: true
           run: |
