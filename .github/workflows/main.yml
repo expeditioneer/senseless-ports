@@ -24,4 +24,4 @@ jobs:
             mv poudriere.conf /usr/local/etc/poudriere.conf
             poudriere jail -c -j 13_1_release -m ftp -v 13.1-RELEASE
             poudriere ports -c -U https://github.com/${{ github.repository }}.git -p senseless -B ${GITHUB_REF##*/}
-            poudriere bulk -j 13_1_release -O senseless -b latest -f portlist.txt 
+            poudriere bulk -j 13_1_release -O senseless -b latest -f portlist.txt -p senseless
