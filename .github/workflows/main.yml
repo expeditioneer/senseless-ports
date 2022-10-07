@@ -16,7 +16,6 @@ jobs:
         uses: vmactions/freebsd-vm@v0
         with:
           prepare: pkg install -y git-lite poudriere-devel
-          auto_update: true
           memory: 10240
           usesh: true
           run: |
