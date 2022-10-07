@@ -8,17 +8,15 @@ on:
 name: Workflow for development branch
 jobs:
   build:
-    runs-on: macos-10.15
-    timeout-minutes: 1200
-    env:
-      FREEBSD_MAJOR_VERSION: 12
-      FREEBSD_MINOR_VERSION: 3
+    runs-on: macos-12
     steps:
-      - uses: actions/checkout@master
-      - uses: os-runners/freebsd-vm@main
+      - uses: actions/checkout@v3
+
+      - name: Build custom FreeBSD ports overlay
+        uses: vmactions/freebsd-vm@v0
         with:
           prepare: pkg install -y git-lite poudriere-devel
-          version: '13.0'
+          release: 13.1
           auto_update: true
           memory: 10240
           usesh: true
